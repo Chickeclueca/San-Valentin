@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para el amor de mi vida</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle,#ff4eed,#aa00ff);
+    font-family: Arial, sans-serif;
+    overflow:hidden;
+}
+
+/* ---------- PANTALLA INICIAL ---------- */
+
+.inicio{
+    text-align:center;
+}
+
+.big-heart{
+    width:120px;
+    height:120px;
+    background:rgba(255, 17, 0, 0.571);
+    position:relative;
+    transform: rotate(45deg);
+    margin:auto;
+    cursor:pointer;
+    animation: latido 1s infinite;
+}
+
+.big-heart::before,
+.big-heart::after{
+    content:"";
+    width:120px;
+    height:120px;
+    background:rgba(255, 17, 0, 0.571);
+    position:absolute;
+    border-radius:50%;
+}
+
+.big-heart::before{ top:-60px; left:0; }
+.big-heart::after{ left:-60px; top:0; }
+
+@keyframes latido{
+    0%{ transform:rotate(45deg) scale(1); }
+    50%{ transform:rotate(45deg) scale(1.1); }
+    100%{ transform:rotate(45deg) scale(1); }
+}
+
+.pregunta{ color:white; margin-top:40px; }
+
+/* ---------- BOTONES ---------- */
+
+.botones{
+    margin-top:20px;
+    display:none;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    margin:5px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.si{ background:#ff4d6d; color:white; }
+.no{ background:#444; color:white; }
+
+.mensajeNo{
+    color:white;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+/* ---------- CONTENIDO ---------- */
+
+.card{
+    background:#f5e6dc;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:400px;
+    position:relative;
+    display:none;
+}
+
+.tree{
+    position:relative;
+    width:200px;
+    height:250px;
+    margin:20px auto;
+    transform: scale(0);
+    transition: transform 2s ease-out;
+}
+
+.trunk{
+    width:30px;
+    height:120px;
+    background:brown;
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.leaves{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+.heart{
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:red;
+    transform: rotate(45deg);
+    animation: caer 4s linear infinite;
+}
+
+.heart::before,
+.heart::after{
+    content:"";
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:red;
+    border-radius:50%;
+}
+
+.heart::before{ top:-7px; left:0; }
+.heart::after{ left:-7px; top:0; }
+
+@keyframes caer{
+    0%{ transform:rotate(45deg) translateY(0); }
+    100%{ transform:rotate(45deg) translateY(200px); }
+}
+
+.oculto{ display:none; }
+
+</style>
+</head>
+
+<body>
+
+<div class="inicio" id="inicio">
+    <div class="big-heart" id="bigHeart"></div>
+    <h2 class="pregunta">¿Quieres ser mi Valentine? ❣️</h2>
+
+    <div class="botones" id="botones">
+        <button class="si" id="btnSi">Sí 💖</button>
+        <button class="no" id="btnNo">No 😒</button>
+
+        <!-- ESPACIO PARA 2 OPCIONES MÁS DE NO -->
+        <!-- <button class="no">No 2</button> -->
+        <!-- <button class="no">No 3</button> -->
+
+        <div class="mensajeNo" id="mensajeNo"></div>
+    </div>
+</div>
+
+<div class="card" id="contenido">
+    <h2>Para el amor de mi vida:</h2>
+
+    <div class="tree">
+        <div class="trunk"></div>
+        <div class="leaves" id="leaves"></div>
+    </div>
+
+    <p id="contador"></p>
+</div>
+
+<script>
+
+const bigHeart = document.getElementById("bigHeart");
+const botones = document.getElementById("botones");
+const btnSi = document.getElementById("btnSi");
+const btnNo = document.getElementById("btnNo");
+const mensajeNo = document.getElementById("mensajeNo");
+
+const inicio = document.getElementById("inicio");
+const contenido = document.getElementById("contenido");
+const leaves = document.getElementById("leaves");
+const contador = document.getElementById("contador");
+
+let contadorNo = 0;
+
+/* Mostrar botones al hacer clic en corazón */
+bigHeart.addEventListener("click", ()=>{
+    botones.style.display = "block";
+});
+
+/* Si presiona SÍ */
+btnSi.addEventListener("click", ()=>{
+
+    inicio.style.display = "none";
+    contenido.style.display = "block";
+
+    const tree = document.querySelector(".tree");
+
+    setTimeout(()=>{
+        tree.style.transform = "scale(1)";
+    },500);
+
+    setTimeout(()=>{
+        for(let i=0; i<80; i++){
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.top = Math.random()*150 + "px";
+            heart.style.left = Math.random()*150 + "px";
+            heart.style.animationDuration = (Math.random()*3+2)+"s";
+            leaves.appendChild(heart);
+        }
+    },1500);
+
+    setTimeout(()=>{
+        iniciarContador();
+    },3000);
+
+});
+
+/* Si presiona NO */
+btnNo.addEventListener("click", ()=>{
+
+    contadorNo++;
+
+    if(contadorNo === 1){
+        mensajeNo.innerText = "Hey 😠 esa no es la respuesta";
+    } else {
+        mensajeNo.innerText = "Ey otra vez? 😒";
+    }
+
+});
+
+
+// -------- CONTADOR --------
+
+function iniciarContador(){
+
+    const fechaInicio = new Date(2025, 4, 29, 0, 0, 0);
+
+    setInterval(()=>{
+        const ahora = new Date();
+        const diferencia = ahora - fechaInicio;
+
+        const dias = Math.floor(diferencia / (1000*60*60*24));
+        const horas = Math.floor((diferencia / (1000*60*60)) % 24);
+        const minutos = Math.floor((diferencia / (1000*60)) % 60);
+        const segundos = Math.floor((diferencia / 1000) % 60);
+
+        contador.innerHTML =
+        `Mi amor por ti comenzó hace ${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos ❤️`;
+
+    },1000);
+}
+
+</script>
+
+</body>
+</html>
