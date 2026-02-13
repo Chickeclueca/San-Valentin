@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mamotit0... </title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle,#ff4eed,#aa00ff);
+    font-family: Arial, sans-serif;
+    overflow:hidden;
+}
+
+.inicio{
+    text-align:center;
+    position:relative;
+}
+
+.big-heart{
+    width:120px;
+    height:120px;
+    background:rgba(255, 17, 0, 0.571);
+    position:relative;
+    transform: rotate(45deg);
+    margin:auto;
+    cursor:pointer;
+    animation: latido 1s infinite;
+}
+
+.big-heart::before,
+.big-heart::after{
+    content:"";
+    width:120px;
+    height:120px;
+    background:rgba(255, 17, 0, 0.571);
+    position:absolute;
+    border-radius:50%;
+}
+
+.big-heart::before{ top:-60px; left:0; }
+.big-heart::after{ left:-60px; top:0; }
+
+@keyframes latido{
+    0%{ transform:rotate(45deg) scale(1); }
+    50%{ transform:rotate(45deg) scale(1.1); }
+    100%{ transform:rotate(45deg) scale(1); }
+}
+
+.pregunta{ color:white; margin-top:40px; }
+
+.botones{
+    margin-top:20px;
+    display:none;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:10px;
+    margin:5px;
+    cursor:pointer;
+    font-size:16px;
+    transition: all 0.4s ease;
+}
+
+.si{ background:#ff4d6d; color:white; }
+.no{ background:#444; color:white; }
+
+.mensajeNo{
+    color:white;
+    margin-top:15px;
+    font-weight:bold;
+}
+
+/* TARJETA */
+
+.card{
+    width:700px;
+    height:500px;
+    border-radius:20px;
+    position:relative;
+    display:none;
+    overflow:hidden;
+    background-image: url("https://raw.githubusercontent.com/Chickeclueca/San-Valentin/c6367fba245dd7eb27e04ad9390ebf7bc218ef30/Fondo%20de%20valentine.jpeg");
+    background-size: cover;
+    background-position: center;
+}
+
+/* TEXTO EN 70% */
+.overlay{
+    position:absolute;
+    top:70%;
+    left:0;
+    width:100%;
+    padding:20px;
+    color:white;
+    text-align:center;
+    transform: translateY(-50%);
+}
+
+/* 🌸 PÉTALOS EMOJI */
+
+.petalo{
+    position:absolute;
+    font-size:20px;
+    animation: caer linear infinite;
+    pointer-events:none;
+}
+
+@keyframes caer{
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity:1;
+    }
+    100%{
+        transform: translateY(250px) rotate(360deg);
+        opacity:0;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="inicio" id="inicio">
+    <div class="big-heart" id="bigHeart"></div>
+    <h2 class="pregunta">¿Quieres ser mi Valentine? ❣️</h2>
+
+    <div class="botones" id="botones">
+        <button class="si" id="btnSi">Sí 💖</button>
+        <button class="no" id="btnNo">No 😒</button>
+        <div class="mensajeNo" id="mensajeNo"></div>
+    </div>
+</div>
+
+<div class="card" id="contenido">
+    <div class="overlay">
+        <h2>Mamotito... 💖</h2>
+        <p id="contador"></p>
+    </div>
+</div>
+
+<script>
+
+const bigHeart = document.getElementById("bigHeart");
+const botones = document.getElementById("botones");
+const btnSi = document.getElementById("btnSi");
+const btnNo = document.getElementById("btnNo");
+const mensajeNo = document.getElementById("mensajeNo");
+
+const inicio = document.getElementById("inicio");
+const contenido = document.getElementById("contenido");
+const contador = document.getElementById("contador");
+
+let contadorNo = 0;
+
+bigHeart.addEventListener("click", ()=>{
+    botones.style.display = "block";
+});
+
+btnSi.addEventListener("click", ()=>{
+    inicio.style.display = "none";
+    contenido.style.display = "block";
+    iniciarContador();
+    iniciarPetalos();
+});
+
+btnNo.addEventListener("click", ()=>{
+
+    contadorNo++;
+
+    if(contadorNo === 1){
+        mensajeNo.innerText = "Hey 😠 esa no es la respuesta";
+    }
+    else if(contadorNo === 2){
+        mensajeNo.innerText = "Ey otra vez? 😒";
+    }
+    else if(contadorNo === 3){
+        mensajeNo.innerText = "mamor de verdad no quieres? :c";
+    }
+    else if(contadorNo === 4){
+        mensajeNo.innerText = ">:v nos vamos a poner violentos...";
+    }
+    else if(contadorNo === 5){
+        mensajeNo.innerText = "Lo vamos a mover por otro lado ok? 😏";
+        btnNo.style.position = "fixed";
+        btnNo.style.top = "0px";
+        btnNo.style.left = "0px";
+    }
+    else if(contadorNo >= 6){
+        mensajeNo.innerText = "Bueno… no me dejaste más opción :p";
+        btnNo.style.display = "none";
+    }
+
+});
+
+function iniciarContador(){
+
+    const fechaInicio = new Date(2025, 4, 29, 0, 0, 0);
+
+    setInterval(()=>{
+        const ahora = new Date();
+        const diferencia = ahora - fechaInicio;
+
+        const dias = Math.floor(diferencia / (1000*60*60*24));
+        const horas = Math.floor((diferencia / (1000*60*60)) % 24);
+        const minutos = Math.floor((diferencia / (1000*60)) % 60);
+        const segundos = Math.floor((diferencia / 1000) % 60);
+
+        contador.innerHTML =
+        `tiamo desde hace ${dias} días ${horas} horas ${minutos} minutotes y ${segundos} segundos mamor muak❤️`;
+
+    },1000);
+}
+
+/* 🌸 PÉTALOS SOLO EN 0–30 Y 70–100 */
+
+function iniciarPetalos(){
+
+    const ancho = 700;
+
+    setInterval(()=>{
+
+        const petalo = document.createElement("div");
+        petalo.classList.add("petalo");
+        petalo.innerHTML = "🌸";
+
+        let posicion;
+
+        if(Math.random() < 0.5){
+            posicion = Math.random() * (ancho * 0.30);
+        } else {
+            posicion = ancho * 0.70 + Math.random() * (ancho * 0.30);
+        }
+
+        petalo.style.left = posicion + "px";
+        petalo.style.top = "30%";
+        petalo.style.animationDuration = (3 + Math.random()*3) + "s";
+
+        contenido.appendChild(petalo);
+
+        setTimeout(()=>{
+            petalo.remove();
+        },6000);
+
+    },300);
+}
+
+</script>
+
+</body>
+</html>
