@@ -88,19 +88,21 @@ button{
     display:none;
     overflow:hidden;
 
-    background-image: url(https://github.com/Chickeclueca/San-Valentin/blob/c6367fba245dd7eb27e04ad9390ebf7bc218ef30/Fondo%20de%20valentine.jpeg);
+    background-image: url("https://raw.githubusercontent.com/Chickeclueca/San-Valentin/c6367fba245dd7eb27e04ad9390ebf7bc218ef30/Fondo%20de%20valentine.jpeg");
     background-size: cover;
     background-position: center;
 }
 
+/* TEXTO AL 30% DESDE ABAJO */
 .overlay{
     position:absolute;
-    bottom:0;
+    top:70%;
+    left:0;
     width:100%;
     padding:20px;
-    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
     color:white;
     text-align:center;
+    transform: translateY(-50%);
 }
 
 </style>
