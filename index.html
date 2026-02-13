@@ -119,7 +119,7 @@ button{
         opacity:1;
     }
     100%{
-        transform: translateY(250px) rotate(360deg);
+        transform: translateY(250px) rotate(290deg);
         opacity:0;
     }
 }
@@ -224,26 +224,24 @@ function iniciarContador(){
 
 function iniciarPetalos(){
 
+    const ancho = 700;
+
     setInterval(()=>{
 
         const petalo = document.createElement("div");
         petalo.classList.add("petalo");
-
-        // 🔥 Detecta el ancho REAL de la card
-        const ancho = contenido.offsetWidth;
+        petalo.innerHTML = "🌸";
 
         let posicion;
 
         if(Math.random() < 0.5){
-            // Zona izquierda (0–30%)
             posicion = Math.random() * (ancho * 0.30);
         } else {
-            // Zona derecha (70–100%)
             posicion = ancho * 0.70 + Math.random() * (ancho * 0.30);
         }
 
         petalo.style.left = posicion + "px";
-        petalo.style.top = "70%";
+        petalo.style.top = "30%";
         petalo.style.animationDuration = (3 + Math.random()*3) + "s";
 
         contenido.appendChild(petalo);
@@ -259,4 +257,6 @@ function iniciarPetalos(){
 
 </body>
 </html>
+
+
 
