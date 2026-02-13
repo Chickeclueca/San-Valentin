@@ -17,10 +17,9 @@ body{
     overflow:hidden;
 }
 
-/* ---------- PANTALLA INICIAL ---------- */
-
 .inicio{
     text-align:center;
+    position:relative;
 }
 
 .big-heart{
@@ -55,8 +54,6 @@ body{
 
 .pregunta{ color:white; margin-top:40px; }
 
-/* ---------- BOTONES ---------- */
-
 .botones{
     margin-top:20px;
     display:none;
@@ -69,6 +66,7 @@ button{
     margin:5px;
     cursor:pointer;
     font-size:16px;
+    transition: all 0.4s ease;
 }
 
 .si{ background:#ff4d6d; color:white; }
@@ -80,71 +78,30 @@ button{
     font-weight:bold;
 }
 
-/* ---------- CONTENIDO ---------- */
+/* -------- FOTO DESDE GITHUB -------- */
 
 .card{
-    background:#f5e6dc;
-    padding:30px;
-    border-radius:20px;
-    text-align:center;
     width:400px;
+    height:500px;
+    border-radius:20px;
     position:relative;
     display:none;
+    overflow:hidden;
+
+    background-image: url("AQUI_PEGA_EL_LINK_RAW_DE_TU_IMAGEN");
+    background-size: cover;
+    background-position: center;
 }
 
-.tree{
-    position:relative;
-    width:200px;
-    height:250px;
-    margin:20px auto;
-    transform: scale(0);
-    transition: transform 2s ease-out;
-}
-
-.trunk{
-    width:30px;
-    height:120px;
-    background:brown;
+.overlay{
     position:absolute;
     bottom:0;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.leaves{
-    position:absolute;
     width:100%;
-    height:100%;
+    padding:20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color:white;
+    text-align:center;
 }
-
-.heart{
-    position:absolute;
-    width:15px;
-    height:15px;
-    background:red;
-    transform: rotate(45deg);
-    animation: caer 4s linear infinite;
-}
-
-.heart::before,
-.heart::after{
-    content:"";
-    position:absolute;
-    width:15px;
-    height:15px;
-    background:red;
-    border-radius:50%;
-}
-
-.heart::before{ top:-7px; left:0; }
-.heart::after{ left:-7px; top:0; }
-
-@keyframes caer{
-    0%{ transform:rotate(45deg) translateY(0); }
-    100%{ transform:rotate(45deg) translateY(200px); }
-}
-
-.oculto{ display:none; }
 
 </style>
 </head>
@@ -158,24 +115,15 @@ button{
     <div class="botones" id="botones">
         <button class="si" id="btnSi">Sí 💖</button>
         <button class="no" id="btnNo">No 😒</button>
-
-        <!-- ESPACIO PARA 2 OPCIONES MÁS DE NO -->
-        <!-- <button class="no">No 2</button> -->
-        <!-- <button class="no">No 3</button> -->
-
         <div class="mensajeNo" id="mensajeNo"></div>
     </div>
 </div>
 
 <div class="card" id="contenido">
-    <h2>Para el amor de mi vida:</h2>
-
-    <div class="tree">
-        <div class="trunk"></div>
-        <div class="leaves" id="leaves"></div>
+    <div class="overlay">
+        <h2>Para el amor de mi vida 💖</h2>
+        <p id="contador"></p>
     </div>
-
-    <p id="contador"></p>
 </div>
 
 <script>
@@ -188,60 +136,42 @@ const mensajeNo = document.getElementById("mensajeNo");
 
 const inicio = document.getElementById("inicio");
 const contenido = document.getElementById("contenido");
-const leaves = document.getElementById("leaves");
 const contador = document.getElementById("contador");
 
 let contadorNo = 0;
 
-/* Mostrar botones al hacer clic en corazón */
 bigHeart.addEventListener("click", ()=>{
     botones.style.display = "block";
 });
 
-/* Si presiona SÍ */
 btnSi.addEventListener("click", ()=>{
-
     inicio.style.display = "none";
     contenido.style.display = "block";
-
-    const tree = document.querySelector(".tree");
-
-    setTimeout(()=>{
-        tree.style.transform = "scale(1)";
-    },500);
-
-    setTimeout(()=>{
-        for(let i=0; i<80; i++){
-            const heart = document.createElement("div");
-            heart.classList.add("heart");
-            heart.style.top = Math.random()*150 + "px";
-            heart.style.left = Math.random()*150 + "px";
-            heart.style.animationDuration = (Math.random()*3+2)+"s";
-            leaves.appendChild(heart);
-        }
-    },1500);
-
-    setTimeout(()=>{
-        iniciarContador();
-    },3000);
-
+    iniciarContador();
 });
 
-/* Si presiona NO */
 btnNo.addEventListener("click", ()=>{
 
     contadorNo++;
 
     if(contadorNo === 1){
         mensajeNo.innerText = "Hey 😠 esa no es la respuesta";
-    } else {
+    }
+    else if(contadorNo === 2){
         mensajeNo.innerText = "Ey otra vez? 😒";
+    }
+    else if(contadorNo === 3){
+        mensajeNo.innerText = "Lo vamos a mover por acá ok? 😏";
+        btnNo.style.position = "fixed";
+        btnNo.style.top = "0px";
+        btnNo.style.left = "0px";
+    }
+    else if(contadorNo >= 4){
+        mensajeNo.innerText = "Bueno… no me dejas más opción 😌";
+        btnNo.style.display = "none";
     }
 
 });
-
-
-// -------- CONTADOR --------
 
 function iniciarContador(){
 
