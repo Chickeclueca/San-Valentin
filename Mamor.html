@@ -78,22 +78,21 @@ button{
     font-weight:bold;
 }
 
-/* -------- FOTO DESDE GITHUB -------- */
+/* TARJETA */
 
 .card{
-    width:400px;
+    width:700px;
     height:500px;
     border-radius:20px;
     position:relative;
     display:none;
     overflow:hidden;
-
     background-image: url("https://raw.githubusercontent.com/Chickeclueca/San-Valentin/c6367fba245dd7eb27e04ad9390ebf7bc218ef30/Fondo%20de%20valentine.jpeg");
     background-size: cover;
     background-position: center;
 }
 
-/* TEXTO AL 30% DESDE ABAJO */
+/* TEXTO EN 70% */
 .overlay{
     position:absolute;
     top:70%;
@@ -103,6 +102,26 @@ button{
     color:white;
     text-align:center;
     transform: translateY(-50%);
+}
+
+/* 🌸 PÉTALOS EMOJI */
+
+.petalo{
+    position:absolute;
+    font-size:20px;
+    animation: caer linear infinite;
+    pointer-events:none;
+}
+
+@keyframes caer{
+    0%{
+        transform: translateY(0) rotate(0deg);
+        opacity:1;
+    }
+    100%{
+        transform: translateY(250px) rotate(360deg);
+        opacity:0;
+    }
 }
 
 </style>
@@ -150,6 +169,7 @@ btnSi.addEventListener("click", ()=>{
     inicio.style.display = "none";
     contenido.style.display = "block";
     iniciarContador();
+    iniciarPetalos();
 });
 
 btnNo.addEventListener("click", ()=>{
@@ -163,13 +183,19 @@ btnNo.addEventListener("click", ()=>{
         mensajeNo.innerText = "Ey otra vez? 😒";
     }
     else if(contadorNo === 3){
-        mensajeNo.innerText = "Lo vamos a mover por acá ok? 😏";
+        mensajeNo.innerText = "mamor de verdad no quieres? :c";
+    }
+    else if(contadorNo === 4){
+        mensajeNo.innerText = ">:v nos vamos a poner violentos...";
+    }
+    else if(contadorNo === 5){
+        mensajeNo.innerText = "Lo vamos a mover por otro lado ok? 😏";
         btnNo.style.position = "fixed";
         btnNo.style.top = "0px";
         btnNo.style.left = "0px";
     }
-    else if(contadorNo >= 4){
-        mensajeNo.innerText = "Bueno… no me dejas más opción 😌";
+    else if(contadorNo >= 6){
+        mensajeNo.innerText = "Bueno… no me dejaste más opción :p";
         btnNo.style.display = "none";
     }
 
@@ -189,13 +215,45 @@ function iniciarContador(){
         const segundos = Math.floor((diferencia / 1000) % 60);
 
         contador.innerHTML =
-        `Mi amor por ti comenzó hace ${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos ❤️`;
+        `tiamo desde hace ${dias} días ${horas} horas ${minutos} minutotes y ${segundos} segundos mamor muak❤️`;
 
     },1000);
+}
+
+/* 🌸 PÉTALOS SOLO EN 0–30 Y 70–100 */
+
+function iniciarPetalos(){
+
+    const ancho = 700;
+
+    setInterval(()=>{
+
+        const petalo = document.createElement("div");
+        petalo.classList.add("petalo");
+        petalo.innerHTML = "🌸";
+
+        let posicion;
+
+        if(Math.random() < 0.5){
+            posicion = Math.random() * (ancho * 0.30);
+        } else {
+            posicion = ancho * 0.70 + Math.random() * (ancho * 0.30);
+        }
+
+        petalo.style.left = posicion + "px";
+        petalo.style.top = "30%";
+        petalo.style.animationDuration = (3 + Math.random()*3) + "s";
+
+        contenido.appendChild(petalo);
+
+        setTimeout(()=>{
+            petalo.remove();
+        },6000);
+
+    },300);
 }
 
 </script>
 
 </body>
 </html>
-
